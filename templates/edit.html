@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>编辑 Paste</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">标题</label>
+            <input type="text" name="title" class="form-control" value="{{ paste.title }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">内容</label>
+            <textarea name="content" class="form-control" rows="10" required>{{ paste.content }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">最低信任等级要求 (0-4)</label>
+            <input type="number" name="min_trust_level" class="form-control" min="0" max="4" value="{{ paste.min_trust_level }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">允许访问的用户名 (用逗号分隔)</label>
+            <input type="text" name="allowed_users" class="form-control" value="{{ paste.allowed_users }}">
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="is_card_distribution" id="isCardDistribution" 
+                       {% if paste.is_card_distribution %}checked{% endif %}>
+                <label class="form-check-label" for="isCardDistribution">启用卡密分发模式</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="allow_repeat" id="allowRepeat"
+                       {% if paste.allow_repeat %}checked{% endif %}>
+                <label class="form-check-label" for="allowRepeat">允许重复分发相同行</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form>
+{% endblock %} 

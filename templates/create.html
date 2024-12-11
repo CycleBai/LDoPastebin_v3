@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>创建新的 Paste</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">标题</label>
+            <input type="text" name="title" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">描述</label>
+            <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">语言</label>
+            <select name="language" class="form-select">
+                <option value="">自动检测</option>
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="bash">Bash</option>
+                <option value="json">JSON</option>
+                <option value="xml">XML</option>
+                <option value="sql">SQL</option>
+                <option value="ini">INI/配置文件</option>
+                <option value="plaintext">纯文本</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">内容</label>
+            <textarea name="content" class="form-control" rows="10" required></textarea>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="is_public" id="isPublic" checked>
+                <label class="form-check-label" for="isPublic">在列表中公开显示</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">最低信任等级要求 (0-4)</label>
+            <input type="number" name="min_trust_level" class="form-control" min="0" max="4" value="0">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">允许访问的用户名 (用逗号分隔)</label>
+            <input type="text" name="allowed_users" class="form-control" placeholder="user1,user2,user3">
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="is_card_distribution" id="isCardDistribution">
+                <label class="form-check-label" for="isCardDistribution">启用卡密分发模式</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="allow_repeat" id="allowRepeat">
+                <label class="form-check-label" for="allowRepeat">允许重复分发相同行</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="show_progress" id="showProgress">
+                <label class="form-check-label" for="showProgress">显示卡密分发进度</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">创建</button>
+    </form>
+{% endblock %} 

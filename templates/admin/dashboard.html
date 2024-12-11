@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>管理后台</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">总 Pastes</h5>
+                <p class="card-text display-4">{{ total_pastes }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">总用户</h5>
+                <p class="card-text display-4">{{ total_users }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">总评论</h5>
+                <p class="card-text display-4">{{ total_comments }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">总分发卡密</h5>
+                <p class="card-text display-4">{{ total_distributions }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                最近的 Pastes
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for paste in recent_pastes %}
+                    <a href="{{ url_for('view_paste', paste_id=paste.id) }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ paste.title or '无标题' }}</h6>
+                            <small>{{ paste.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                        <small>作者: {{ paste.creator_username }}</small>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                最活跃用户
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for user, paste_count in active_users %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ user.username }}</h6>
+                            <span class="badge bg-primary">{{ paste_count }} pastes</span>
+                        </div>
+                        <small>信任等级: {{ user.trust_level }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

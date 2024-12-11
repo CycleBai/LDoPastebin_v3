@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ paste.title or '无标题' }}</h2>
+    <div class="card mb-3">
+        <div class="card-header">
+            作者: {{ paste.creator_username }} | 创建时间: {{ paste.created_at }}
+            {% if user and paste.creator_id == user.id %}
+            <a href="{{ url_for('edit_paste', paste_id=paste.id) }}" class="btn btn-sm btn-primary float-end">编辑</a>
+            {% endif %}
+        </div>
+        {% if paste.description %}
+        <div class="card-body bg-light">
+            <p class="card-text">{{ paste.description }}</p>
+        </div>
+        {% endif %}
+        <div class="card-body">
+            {% if paste.is_card_distribution %}
+                {% if user %}
+                    {% if progress %}
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: {{ progress.percent }}%">
+                            {{ progress.used }}/{{ progress.total }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if user_card %}
+                        <div class="alert alert-success">
+                            您的卡密内容：
+                            <pre><code class="language-{{ paste.language or 'plaintext' }}">{{ user_card }}</code></pre>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            暂无可用卡密或已全部分发完毕
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info">
+                        此内容需要登录后才能获取卡密
+                        <a href="{{ url_for('initiate_auth') }}" class="btn btn-primary btn-sm">登录</a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <pre><code class="language-{{ paste.language or 'plaintext' }}">{{ paste.content }}</code></pre>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">
+                分享链接: <input type="text" class="form-control-sm" readonly 
+                value="{{ request.url_root }}view/{{ paste.id }}{% if is_anonymous %}?anonymous=1{% endif %}" 
+                onclick="this.select()">
+            </small>
+        </div>
+    </div>
+
+    <!-- 评论区 -->
+    {% if user %}
+    <div class="card">
+        <div class="card-header">
+            评论
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('add_comment', paste_id=paste.id) }}" class="mb-4">
+                <div class="mb-3">
+                    <textarea name="content" class="form-control" rows="3" required placeholder="写下你的评论..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">发表评论</button>
+            </form>
+
+            {% if comments %}
+                {% for comment in comments %}
+                <div class="border-bottom mb-3 pb-3">
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ comment.username }}</strong>
+                        <small class="text-muted">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </div>
+                    <p class="mt-2 mb-0">{{ comment.content }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">暂无评论</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %} 
