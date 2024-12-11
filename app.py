@@ -350,4 +350,4 @@ def admin_dashboard():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=False, port=int(os.getenv('FLASK_PORT', 8181)), host="0.0.0.0")
+    app.run(debug=False, port=int(os.getenv('FLASK_PORT', 8031)), host="0.0.0.0")
